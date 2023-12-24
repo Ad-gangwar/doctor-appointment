@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 export default function Header() {
   const navigate = useNavigate();
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex flex-row">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex flex-row sticky-top">
       <div className="container-fluid">
         <Link className="navbar-brand fst-italic fw-bold mx-3" to="/">Appoint-Well</Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
