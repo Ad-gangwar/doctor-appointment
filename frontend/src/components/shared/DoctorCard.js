@@ -1,5 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Icon } from '@iconify/react';
+
 const DoctorCard = ({ doctor }) => {
     const navigate=useNavigate();
   return (
@@ -21,14 +23,12 @@ const DoctorCard = ({ doctor }) => {
           <div>
             <span className="me-2">Rating: {doctor.avgRating}</span>
           </div>
-          <div>
-            <button className="btn btn-primary" onClick={()=>{
+          <div onClick={()=>{
                 navigate(`/doctors/${doctor.id}`)
-            }}>Know More</button>
+              }} className='cursor-pointer'><Icon icon="icons8:right-round" width={50} /></div>
           </div>
         </div>
       </div>
-    </div>
   );
 };
 

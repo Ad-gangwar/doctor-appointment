@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { doctors } from '../../../assets/data/doctors';
+import {faqs} from '../../../assets/data/faqs';
 
 export default function DoctorDetails() {
   const { id } = useParams();
@@ -25,6 +26,11 @@ export default function DoctorDetails() {
     { time: '2:00 PM - 3:00 PM', isAvailable: true },
     { time: '3:30 PM - 4:30 PM', isAvailable: false },
   ];
+  const [selectedQuestion, setSelectedQuestion] = useState(null);
+
+  const handleQuestionClick = (index) => {
+    setSelectedQuestion(selectedQuestion === index ? null : index);
+  };
 
   const handleSlotClick = (slot) => {
     if (slot.isAvailable) {
@@ -91,6 +97,40 @@ export default function DoctorDetails() {
             </div>
           </div>
         ))}
+      </div>
+
+      <div className="mt-4 p-4 bg-light rounded">
+        <h3 className="text-center mb-4">Frequently Asked Questions</h3>
+        <div className="accordion">
+          {faqs.map((faq, index) => (
+            <div key={index} className="accordion-item" style={{ width: '80%', margin: 'auto' }}>
+              <h2 className="accordion-header" id={`faqHeading${index}`}>
+                <button
+                  className={`accordion-button ${selectedQuestion === index ? '' : 'collapsed'}`}
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#faqCollapse${index}`}
+                  aria-expanded={selectedQuestion === index}
+                  aria-controls={`faqCollapse${index}`}
+                  onClick={() => handleQuestionClick(index)}
+                  style={{ backgroundColor: '#f8f9fa', border: 'none' }}
+                >
+                  {faq.question}
+                </button>
+              </h2>
+              <div
+                id={`faqCollapse${index}`}
+                className={`accordion-collapse collapse ${selectedQuestion === index ? 'show' : ''}`}
+                aria-labelledby={`faqHeading${index}`}
+                data-bs-parent="#accordionExample"
+              >
+                <div className="accordion-body">
+                  {faq.content}
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
