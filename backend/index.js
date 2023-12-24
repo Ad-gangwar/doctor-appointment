@@ -12,7 +12,7 @@ const doctorRoutes = require('./Routes/doctor');
 const app = express();
 
 // Setting up the port for the server
-const PORT = 5000 || process.env.PORT;
+const PORT = 8000 || process.env.PORT;
 
 app.use(cors());
 // Middleware to parse incoming JSON data
