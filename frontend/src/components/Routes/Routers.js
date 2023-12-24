@@ -8,7 +8,7 @@ import Register from '../pages/Register';
 import Doctors from '../pages/Doctors/Doctors';
 import DoctorDetails from '../pages/Doctors/DoctorDetails';
 import Profile from '../pages/Profile';
-
+import About from '../pages/About';
 export default function routers() {
   return (
     <Routes>
@@ -21,6 +21,7 @@ export default function routers() {
     <Route path='/login' element={<Login/>}/>
     <Route path='/doctors/:id' element={<DoctorDetails/>}/>
     <Route path='/profile' element={<Profile/>}/>
+    <Route path='/about' element={<About/>}/>
     </Routes>
   )
 }

@@ -1,18 +1,18 @@
-import React from 'react'
+import React from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Router from '../components/Routes/Routers';
 
-const Layout=()=> {
+const Layout = () => {
   return (
-    <div className='w-100 vh-100'>
-      <Header/>
-      <main>
-        <Router/>
+    <div className='d-flex flex-column min-vh-100'>
+      <Header />
+      <main className='flex-grow-1'>
+        <Router />
       </main>
-      <Footer/>
+      <Footer />
     </div>
-  )
-}
+  );
+};
 
 export default Layout;

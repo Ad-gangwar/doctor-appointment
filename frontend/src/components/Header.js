@@ -60,7 +60,7 @@ export default function Header() {
             <li className='nav-item'><Link to="/doctors" className="nav-link px-2 link-dark">Find a Doctor</Link></li>
             <li className='nav-item'><Link to="/services" className="nav-link px-2 link-dark">Services</Link></li>
             <li className='nav-item'><Link to="/contact" className="nav-link px-2 link-dark">Contact</Link></li>
-            <li className='nav-item'><Link to="#" className="nav-link px-2 link-dark">About</Link></li>
+            <li className='nav-item'><Link to="/about" className="nav-link px-2 link-dark">About</Link></li>
           </ul>
 
         </div>

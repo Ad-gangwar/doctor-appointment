@@ -6,22 +6,31 @@ const DoctorProfile = ({ doctor }) => {
     }
     //   console.log(doctor);
     return (
-        <div className="container mt-5">
-            <h1 className="mb-4">Doctor Profile</h1>
-            <div className="row">
-                <div className="col-md-6">
-                    <p><strong>Email:</strong> {doctor.email === null ? 'Not available' : doctor.email}</p>
-                    <p><strong>Name:</strong> {doctor.name}</p>
-                    <p><strong>Role:</strong> {doctor.role}</p>
-                    <p><strong>Qualifications:</strong> {doctor.qualifications.length > 0 ? doctor.qualifications.join(', ') : 'Not available'}</p>
-                    <p><strong>Experiences:</strong> {doctor.experiences.length > 0 ? doctor.experiences.join(', ') : 'Not available'}</p>
+        <div className="container my-5 w-100">
+            <div className="card p-4 shadow-lg">
+                <h1 className="mb-4 text-center text-primary fw-bold">{doctor.name}'s Profile</h1>
+                <div className="row">
+                    <div className="col-md-6">
+                        <p className="lead"><strong>Email:</strong> {doctor.email}</p>
+                        <p><strong>Role:</strong> {doctor.role}</p>
+                        <p><strong>Gender:</strong> {doctor.gender}</p>
+                    </div>
+                    <div className="col-md-6">
+                        <p><strong>Experience:</strong> {doctor.experiences.length > 0 ? doctor.experiences.join(', ') : 'Not available'}</p>
+                        <p><strong>Qualifications:</strong> {doctor.qualifications.length > 0 ? doctor.qualifications.join(', ') : 'Not available'}</p>
+                    </div>
                 </div>
-                <div className="col-md-6">
-                    <p><strong>Time Slots:</strong> {doctor.timeSlots.length > 0 ? doctor.timeSlots.join(', ') : 'Not available'}</p>
-                    <p><strong>Reviews:</strong> {doctor.reviews.length > 0 ? doctor.reviews.join(', ') : 'Not available'}</p>
-                    <p><strong>Average Rating:</strong> {doctor.averageRating}</p>
-                    <p><strong>Total Rating:</strong> {doctor.totalRating}</p>
-                    <p><strong>Approval Status:</strong> {doctor.isApproved}</p>
+                <div className="mt-4">
+                    <h4>Reviews</h4>
+                    {doctor.reviews.length > 0 ? (
+                        <ul className="list-group">
+                            {doctor.reviews.map((review, index) => (
+                                <li key={index} className="list-group-item">{review}</li>
+                            ))}
+                        </ul>
+                    ) : (
+                        <p>No reviews yet.</p>
+                    )}
                 </div>
             </div>
         </div>
@@ -33,16 +42,17 @@ const UserProfile = ({ user }) => {
     }
     return (
         <div className="container mt-5">
-            <h1 className="mb-4">User Profile</h1>
-            <div className="row">
-                <div className="col-md-6">
-                    <p><strong>Email:</strong> {user.email}</p>
-                    <p><strong>Name:</strong> {user.name}</p>
-                    <p><strong>Role:</strong> {user.role}</p>
-                    <p><strong>Gender:</strong> {user.gender}</p>
-                </div>
-                <div className="col-md-6">
-                    <p><strong>Appointments:</strong> {user.appointments.length > 0 ? user.appointments.join(', ') : 'No appointments'}</p>
+            <div className="card p-4 shadow-lg">
+                <h1 className="mb-4 text-center text-primary fw-bold">{user.name}'s Profile</h1>
+                <div className="row">
+                    <div className="col-md-6">
+                        <p className="lead"><strong>Email:</strong> {user.email}</p>
+                        <p><strong>Role:</strong> {user.role}</p>
+                        <p><strong>Gender:</strong> {user.gender}</p>
+                    </div>
+                    <div className="col-md-6">
+                        <p><strong>Appointments:</strong> {user.appointments.length > 0 ? user.appointments.join(', ') : 'No appointments'}</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -77,12 +87,12 @@ const Profile = () => {
 
     console.log(data.data);
     return (
-        <div>
+        <div >
             {data.data && data.data.role === "doctor" ? (
-          <DoctorProfile doctor={data.data} />
-        ) : (
-          <UserProfile user={data.data} />
-        )}
+                <DoctorProfile doctor={data.data} />
+            ) : (
+                <UserProfile user={data.data} />
+            )}
         </div>
     );
 };

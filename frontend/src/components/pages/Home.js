@@ -1,4 +1,5 @@
-import React from 'react'
+import React from 'react';
+import {useNavigate} from 'react-router-dom';
 import heroImg01 from '../../assets/images/hero-img01.png';
 import heroImg02 from '../../assets/images/hero-img02.png';
 import heroImg03 from '../../assets/images/hero-img03.png';
@@ -6,7 +7,9 @@ import icon01 from '../../assets/images/icon01.png';
 import icon02 from '../../assets/images/icon02.png';
 import icon03 from '../../assets/images/icon03.png';
 import { Icon } from '@iconify/react';
+
 export default function Home() {
+  const navigate=useNavigate();
   return (
     <div>
       <div className='vh-90 w-100 d-flex flex-row position-relative'>
@@ -17,11 +20,13 @@ export default function Home() {
             </div>
             <div className='my-3'>
               <p>
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into
+              Welcome to our state-of-the-art Doctor Appointment System, where your health is our top priority. Our user-friendly platform is designed to seamlessly connect patients with their preferred healthcare providers, offering a convenient and efficient way to schedule appointments. Experience the ease of exploring doctor availability, receiving timely reminders, and providing valuable feedback after each visit. We prioritize enhancing the doctor-patient relationship, ensuring a personalized and positive healthcare journey. Join us in revolutionizing the way you manage your health – where comprehensive care meets modern convenience. Your well-being, our commitment.
               </p>
             </div>
             <div className='my-5'>
-              <button className='btn btn-primary rounded-pill d-block'>Request an Appointment</button>
+              <button className='btn btn-primary rounded-pill d-block' onClick={()=>{
+                navigate("/doctors")
+              }}>Request an Appointment</button>
             </div>
             <div className='d-flex my-3'>
               <div style={{ fontSize: "0.9rem", marginRight: "5px" }} ><span className='d-block fs-3 fw-bold'>30+</span> years of experience</div>
@@ -57,8 +62,10 @@ export default function Home() {
         <div className='d-flex justify-content-around w-100 my-5'>
           <div className='text-center'>
             <div className='p-2'><img src={icon01}></img></div>
-            <div className='my-2'>Find a Doctor</div>
-            <Icon icon="icons8:right-round" width={50}/>
+            <div className='my-2' >Find a Doctor</div>
+            <div onClick={()=>{
+                navigate("/doctors")
+              }} className='cursor-pointer'><Icon icon="icons8:right-round" width={50}/></div>
           </div>
           <div  className='text-center'>
             <div className='p-2'><img src={icon02}></img></div>
@@ -68,7 +75,9 @@ export default function Home() {
           <div  className='text-center'>
             <div className='p-2'><img src={icon03}></img></div>
             <div className='my-2'>Book a Appointment</div>
-            <Icon icon="icons8:right-round" width={50}/>
+            <div onClick={()=>{
+                navigate("/doctors")
+              }} className='cursor-pointer'><Icon icon="icons8:right-round" width={50} /></div>
           </div>
         </div>
       </div>
