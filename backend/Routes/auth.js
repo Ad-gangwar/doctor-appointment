@@ -1,77 +1,89 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
-const { getToken } = require('../utils/helpers');
+const User = require('../models/UserSchema');
+const Doctor = require('../models/DoctorSchema');
+const { body, validationResult } = require('express-validator');
+const bcrypt = require('bcryptjs');
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+const jwtSecret = process.env.SECRET;
 const app = express();
+app.use(express.json());
 
-// Register endpoint
 router.post('/register', async (req, res) => {
     // Extracting user details from the request body
-    const { firstName, lastName, email, username, password } = req.body;
+    const { email, password, name, role, gender } = req.body;
 
-    // Check if a user with the same email already exists
-    const user = await User.findOne({ email });
-    if (user) {
-        return res.status(403).json({ error: "A user with this email already exists" });
+    try {
+        // Check if user with the same email already exists
+        const existingUser = role === 'patient' ? await User.findOne({ email }) : await Doctor.findOne({ email });
+        if (existingUser) {
+            return res.status(403).json({ error: "A user with this email already exists" });
+        }
+
+        // Hash the password using bcrypt
+        const hashPass = await bcrypt.hash(password, 10);
+
+        // Create a new user based on the role
+        let user;
+        if (role === 'patient') {
+            user = new User({ name, email, password: hashPass, gender, role });
+        } else if (role === 'doctor') {
+            user = new Doctor({ name, email, password: hashPass, gender, role });
+        }
+        // console.log(user);
+        // Save the user to the database
+        await user.save();
+        res.json({ success: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, error: "Internal server error" });
     }
-
-    // Hash the password using bcrypt
-    const hashPass = await bcrypt.hash(password, 10);
-
-    // Create a new user with hashed password
-    const newUserData = {
-        firstName,
-        lastName,
-        email,
-        username,
-        password: hashPass,
-    };
-
-    // Save the new user to the database
-    const newUser = await User.create(newUserData);
-
-    // Generate a token for the new user
-    const token = await getToken(email, newUser);
-
-    // Prepare user data to return in the response
-    const userToReturn = { ...newUser.toJSON(), token };
-    // Remove the password from the response for security reasons
-    delete userToReturn.password;
-
-    res.status(200).json(userToReturn);
 });
 
+
 // Login endpoint
-router.post('/login', async (req, res) => {
-    // Extracting login credentials from the request body
-    const { email, password } = req.body;
+router.post('/login', [
+    body('email').isEmail(),
+    body('password').isLength({ min: 5 }).withMessage('should contain min 5 char'),
+], async (req, res) => {
 
-    // Find the user with the provided email in the database
-    const user = await User.findOne({ email: email });
+    const result = validationResult(req);
 
-    // If no user is found, return a 403 status with an error message
-    if (!user) {
-        return res.status(403).json({ err: 'Enter valid Credentials' });
+    if (!result.isEmpty()) {
+        return res.status(400).json({ errors: result.array() });
     }
 
-    // Compare the provided password with the hashed password stored in the database
-    const isValidPass = await bcrypt.compare(password, user.password);
-
-    // If the password is not valid, return a 403 status with an error message
-    if (!isValidPass) {
-        return res.status(403).json({ err: 'Enter valid Credentials' });
+    try {
+        let email = req.body.email;
+        let userData = null;
+        const patient=await User.findOne({email});
+        const doctor=await Doctor.findOne({email});
+        if(patient){
+            userData=patient;
+        }
+        else if(doctor){
+            userData=doctor;
+        }
+        // console.log(userData);
+        if (!userData) {
+            return res.status(400).json({ errors: 'Email not found! Enter correct email' });
+        }
+        const pwdCompare = await bcrypt.compare(req.body.password, userData.password);
+        if (!pwdCompare) {
+            return res.status(400).json({ errors: 'Incorrect Password!' });
+        }
+        const data = {
+            user: {
+                id: userData.id
+            }
+        };
+        const authToken = jwt.sign(data, jwtSecret);
+        return res.json({ success: true, authToken: authToken, data: data});
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false });
     }
-
-    // Generate a token for the authenticated user
-    const token = await getToken(user.email, user);
-
-    // Prepare user data to return in the response
-    const userToReturn = { ...user.toJSON(), token };
-    // Remove the password from the response for security reasons
-    delete userToReturn.password;
-
-    return res.status(200).json(userToReturn);
 });
 
 module.exports = router;

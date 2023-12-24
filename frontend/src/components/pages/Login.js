@@ -1,41 +1,41 @@
 import React, { useState } from 'react';
 import Input from '../shared/Input';
-import { Icon } from '@iconify/react';
 import { useNavigate } from 'react-router-dom';
-// import { makeUnauthPostReq } from '../components/utils/serverHelper';
-// import { useCookies } from 'react-cookie';
 
 export default function Login() {
     let navigate = useNavigate();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    // const [cookie, setCookie] = useCookies(["token"])
 
-    const handleSubmit = async (e) => {
+    async function handleSubmit(e) {
         e.preventDefault();
-    //     const data = { email, password };
-    //     try {
-    //         const response = await makeUnauthPostReq('/auth/login', data);
-    //         if (response && !response.err) {
-    //             console.log(response);
-    //             // Assuming the token is directly present in the response object
-    //             const token = response.token;
-    //             // console.log(token);
-    //             //setting time for the expiry of the token
-    //             const date = new Date();
-    //             date.setDate(date.getDate() + 30);
-    //             setCookie("token", token, { path: "/", expires: date });
-    //             // Assuming setCookie updates a state variable named 'cookie'
-    //             console.log(cookie);
-    //             alert("Logged in Successfully!");
-    //             navigate("/");
-    //         } else {
-    //             alert("Enter valid Credentials!");
-    //         }
-    //     } catch (error) {
-    //         console.error("Error:", error);
-    //     }
-    };
+        const response = await fetch("http://localhost:5000/auth/login", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        });
+
+        if (response.status === 200) {
+            const json = await response.json();
+            if (!json.success) {
+                alert('Enter valid credentials');
+            }
+            else {
+                localStorage.setItem("authToken", json.authToken)
+                localStorage.setItem("userId", json.data.user.id);
+                navigate("/");
+            }
+
+
+        } else {
+            alert('User not found! Please signup.');
+        }
+    }
 
 
     return (

@@ -2,19 +2,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const passport = require('passport');
-const JwtStrategy = require('passport-jwt').Strategy;
-const ExtractJwt = require('passport-jwt').ExtractJwt;
 const cors=require('cors');
 // Getting the secret key from environment variables
-const SECRET = process.env.SECRET;
 const URL=process.env.URL;
-
-// Importing the User model and authentication routes
-const User = require('./models/User');
+const userRoutes=require('./Routes/user');
 const authRoutes = require('./Routes/auth');
+const doctorRoutes = require('./Routes/doctor');
 
-// Creating an Express application
 const app = express();
 
 // Setting up the port for the server
@@ -24,6 +18,15 @@ app.use(cors());
 // Middleware to parse incoming JSON data
 app.use(express.json());
 
+app.use((req, res, next)=>{
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.header(
+        "Access-Control-Allow-Headers",
+        "Origin, X-Requested-With, Content-Type, Accept"
+    );
+    next();
+})
+
 // Simple route to test if the server is running
 app.get("/", (req, res) => {
     res.send('Hello world');
@@ -31,6 +34,8 @@ app.get("/", (req, res) => {
 
 // Setting up routes for authentication
 app.use('/auth', authRoutes);
+app.use('/user', userRoutes);
+app.use('/doctor', doctorRoutes);
 
 console.log(URL);
 // Connecting to the MongoDB database
@@ -40,28 +45,10 @@ mongoose.connect(URL).then((x) => {
     console.log('Error connecting to the database');
 });
 
-// Setting up Passport middleware for JWT authentication
-// This code checks the user against the authToken
-//The name of this strategy is by default jwt
-let opts = {};
-opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
-opts.secretOrKey = SECRET;
 
-passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-    // Find the user in the database based on the JWT's sub (subject) claim
-    User.findOne({ id: jwt_payload.sub }).then(function (user) {
-        if (user) {
-            // If user is found, pass the user to the next middleware
-            return done(null, user);
-        } else {
-            // If user is not found, deny access
-            return done(null, false);
-            // Alternatively, you could create a new account or handle as needed
-        }
-    }).catch((err) => {
-        return done(err, false);
-    });
-}));
+
+// Middleware to parse JSON requests
+app.use(express.json());
 
 // Starting the Express server
 app.listen(PORT, () => {

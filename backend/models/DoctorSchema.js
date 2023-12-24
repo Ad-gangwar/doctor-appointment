@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose=require('mongoose');
 
 const DoctorSchema = new mongoose.Schema({
   email: {
@@ -16,9 +16,6 @@ const DoctorSchema = new mongoose.Schema({
   },
   phone: {
     type: Number
-  },
-  photo: {
-    type: String
   },
   ticketPrice: {
     type: Number
@@ -72,4 +69,4 @@ const DoctorSchema = new mongoose.Schema({
   }],
 });
 
-export default mongoose.model("Doctor", DoctorSchema);
+module.exports= mongoose.model("Doctor", DoctorSchema);

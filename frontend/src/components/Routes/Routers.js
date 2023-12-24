@@ -7,6 +7,7 @@ import Login from '../pages/Login';
 import Register from '../pages/Register';
 import Doctors from '../pages/Doctors/Doctors';
 import DoctorDetails from '../pages/Doctors/DoctorDetails';
+import Profile from '../pages/Profile';
 
 export default function routers() {
   return (
@@ -19,6 +20,7 @@ export default function routers() {
     <Route path='/register' element={<Register/>}/>
     <Route path='/login' element={<Login/>}/>
     <Route path='/doctors/:id' element={<DoctorDetails/>}/>
+    <Route path='/profile' element={<Profile/>}/>
     </Routes>
   )
 }

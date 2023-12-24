@@ -5,7 +5,7 @@ import Router from '../components/Routes/Routers';
 
 const Layout=()=> {
   return (
-    <div>
+    <div className='w-100 vh-100'>
       <Header/>
       <main>
         <Router/>
