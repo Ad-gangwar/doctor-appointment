@@ -1,5 +1,9 @@
 const Doctor = require('../models/DoctorSchema');
+const Booking = require('../models/BookingSchema');
 const express = require('express');
+const reviewRouter=require('./review');
+const {restrict} = require('../utils/helpers');
+const passport = require('passport');
 
 const updateDoctor = async (req, res) => {
     const id = req.params.id;
@@ -24,7 +28,7 @@ const deleteDoctor = async (req, res) => {
 const getSingleDoctor = async (req, res) => {
     const id = req.params.id;
     try {
-        const doctor = await Doctor.findById(id).select('-password');
+        const doctor = await Doctor.findById(id).populate('reviews').select('-password');
         res.status(200).json({ success: true, message: 'Successfully found', data: doctor });
     } catch (err) {
         res.status(500).json({ success: false, message: 'Failed' });
@@ -54,11 +58,34 @@ const getAllDoctor = async (req, res) => {
     }
 };
 
+const getDoctorProfile = async(req, res)=>{
+    const doctorId=req.userId;
+
+    try{
+        const doctor=await Doctor.findById(doctorId);
+
+        if(!doctor){
+            return res.status(404).json({success: false, message: "Doctor not found"});
+        }
+
+        const appointments=await Booking.find({doctor: doctorId});
+
+        const {password, ...rest} = doctor._doc;
+
+        res.status(200).json({success: true, message: "Profile info is getting", data: {...rest, appointments}});
+    }
+    catch(err){
+        res.status(500).json({ success: false, message: 'Something went wrong, cannot get' });
+    }
+};
+
 const router = express.Router();
 
+router.use('/:doctorId/review', reviewRouter);
 router.get('/:id', getSingleDoctor);
-router.get('/', getAllDoctor);
-router.put('/:id', updateDoctor); 
-router.delete('/:id', deleteDoctor);
+router.get('/',  getAllDoctor);
+router.put('/:id',  passport.authenticate("jwt", {session: false}), restrict(["doctor"]), updateDoctor); 
+router.delete('/:id',  passport.authenticate("jwt", {session: false}),restrict(["doctor"]),  deleteDoctor);
+router.get('/profile/me',passport.authenticate("jwt", { session: false }), restrict(["doctor"]),  getDoctorProfile);
 
 module.exports= router;

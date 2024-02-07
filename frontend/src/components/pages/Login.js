@@ -1,69 +1,78 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import Input from '../shared/Input';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import { makeUnauthPostReq } from '../../utils/serverHelper';
+import { useCookies } from 'react-cookie';
+import toast from 'react-hot-toast';
+import { AuthContext } from '../context/AuthContext';
+import HashLoader from 'react-spinners/HashLoader';
 
 export default function Login() {
     let navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [cookie, setCookie] = useCookies(["token"]);
+    const { dispatch } = useContext(AuthContext);
 
-    async function handleSubmit(e) {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        const response = await fetch("http://localhost:5000/auth/login", {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        });
+        const data = { email, password };
+        setLoading(true);
+        try {
+            const response = await makeUnauthPostReq('/auth/login', data);
 
-        if (response.status === 200) {
-            const json = await response.json();
-            if (!json.success) {
-                alert('Enter valid credentials');
+            if (response && !response.err) {
+                const token = response.token;
+                const date = new Date();
+                date.setDate(date.getDate() + 30);
+                setCookie("token", token, { path: "/", expires: date });
+                // setCookie("userEmail", email, { path: "/" });
+                // console.log(response);
+                dispatch({
+                    type: "LOGIN_SUCCESS",
+                    payload: {
+                        user: response.data
+                    }
+                });
+
+                toast.success("Logged in Successfully!");
+                navigate("/home");
+            } else {
+                toast.error("Invalid Credentials!");
             }
-            else {
-                localStorage.setItem("authToken", json.authToken)
-                localStorage.setItem("userId", json.data.user.id);
-                navigate("/");
-            }
-
-
-        } else {
-            alert('User not found! Please signup.');
-        }
-    }
+        } catch (error) {
+            console.error("Error:", error);
+            toast.error(`An error occurred while logging in: ${error.message || "Unknown error"}`);
+        } 
+        finally {
+            setLoading(false);
+        }        
+    };
 
 
     return (
-        <div className='h-100 w-100 d-flex flex-column'>
-            <div className='fw-bold text-center mt-5 mb-4 fs-3'>Welcome back!</div>
-            <div className='w-100 d-flex'>
-                <main className="form-signin m-auto w-25">
-                    <form className='mb-3' onSubmit={handleSubmit}>
-                        <Input label="Email address or username" placeholder="Email address or username" type="email" value={email} setValue={setEmail}
-                        />
-                        <Input label="Password" placeholder="Password" type="password" value={password} setValue={setPassword} />
+        <section className='px-5 lg:px-0'>
+            <div className=' w-full max-w-[570px] mx-auto rounded-lg shadow-md md:p-10 p-5'>
+                <h3 className=' text-headingColor text-[22px] leading-9 font-bold lg:mb-10 mb-5'>
+                    Hello! <span className=' text-primaryColor'>Welcome</span> Back 🎉
+                </h3>
 
-                        <div className='d-flex justify-content-between my-4'>
-                            <div className="form-group form-check fw-bold">
-                                <input type="checkbox" className="form-check-input" id="Check1" />
-                                <label className="form-check-label" htmlFor="Check1">Remember me</label>
-                            </div>
-                            <button type="submit" className="btn rounded-pill w-25 text-dark py-2 fw-bold border-0" style={{ backgroundColor: "#00cd10" }}>LOG IN</button>
-                        </div>
-                    </form>
-                    <div className='border-bottom border-3'></div>
-                    <div className='fw-bold text-center my-4' style={{ fontSize: "1.2rem" }}>Don't have an account?</div>
-                    <button type="submit" className="btn rounded-pill w-100 text-secondary fw-bold border-1 border-secondary p-3" onClick={() => {
-                        navigate("/register");
-                    }}>SIGN UP</button>
-                </main>
+                <form className='py-4 md:py-0' onSubmit={handleSubmit}>
+                    <Input type='email' placeholder='Enter your email' value={email} setValue={setEmail} />
+                    <Input type='password' placeholder='Enter your password' value={password} setValue={setPassword} />
+                    <div className='mt-7'>
+                        <button type='submit'
+                            className='w-full bg-primaryColor text-white text-[18px] leading-[30px] rounded-lg px-4 py-3'>
+                            {loading ? <HashLoader size={25} color="white"/> : 'Login'}
+                            </button>
+                    </div>
+                    <p className='mt-5 text-textColor text-center'>
+                        Don't have an accoount? <Link to='/register' className='text-primaryColor font-medium ml-1'>Sign Up</Link>
+                    </p>
+                </form>
             </div>
-        </div>
+        </section>
     )
 }
 

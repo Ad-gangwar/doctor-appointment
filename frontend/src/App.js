@@ -1,10 +1,21 @@
-import React from 'react'
+import React from 'react';
 import Layout from './Layout/Layout';
+import './App.css';
+import toast, { Toaster, ToastBar } from 'react-hot-toast';
+import { AuthContextProvider } from './components/context/AuthContext';
 
 export default function App() {
   return (
-    <div className='w-100 vh-100'>
-      <Layout/>
-    </div>
-  )
+    <>
+      <AuthContextProvider>
+        <Toaster
+          autoClose={3000}
+          closeOnClick
+          pauseOnHover={false}
+          containerStyle={{ zIndex: "3453534" }}
+        />
+        <Layout />
+      </AuthContextProvider>
+    </>
+  );
 }

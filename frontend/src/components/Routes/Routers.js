@@ -5,23 +5,38 @@ import Contact from '../pages/Contact';
 import Services from '../pages/Services';
 import Login from '../pages/Login';
 import Register from '../pages/Register';
-import Doctors from '../pages/Doctors/Doctors';
+import FindDoctor from '../pages/Doctors/findDoctor';
 import DoctorDetails from '../pages/Doctors/DoctorDetails';
-import Profile from '../pages/Profile';
 import About from '../pages/About';
+import MyAccount from '../../Dashboard/user-account/MyAccount';
+import Dashboard from '../../Dashboard/doctor-account/Dashboard';
+import ProtectedRoutes from './ProtectedRoutes';
+
+
 export default function routers() {
+  let token=localStorage.getItem('authToken');
   return (
     <Routes>
-    <Route path='/' element={<Home/>}/>
-    <Route path='/home' element={<Home/>}/>
-    <Route path='/contact' element={<Contact/>}/>
-    <Route path='/services' element={<Services/>}/>
-    <Route path='/doctors' element={<Doctors/>}/>
-    <Route path='/register' element={<Register/>}/>
-    <Route path='/login' element={<Login/>}/>
-    <Route path='/doctors/:id' element={<DoctorDetails/>}/>
-    <Route path='/profile' element={<Profile/>}/>
-    <Route path='/about' element={<About/>}/>
+      {/* {token ? ( */}
+        <>
+          <Route path='/' element={<Home />} />
+          <Route path='/home' element={<Home />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/services' element={<Services />} />
+          <Route path='/doctors' element={<FindDoctor/>} />
+          <Route path='/doctors/:id' element={<DoctorDetails />} />
+          <Route path='/users/profile/me' element={<ProtectedRoutes allowedRoles={['patient']}><MyAccount/></ProtectedRoutes>} />
+          <Route path='/doctors/profile/me' element={<ProtectedRoutes allowedRoles={['doctor']}><Dashboard/></ProtectedRoutes>} />
+          <Route path='/about' element={<About />} />
+          <Route path='*' element={<Home />} />
+        </>
+      {/* ) : ( */}
+        <>
+          <Route path='/register' element={<Register />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='*' element={<Login />} />
+        </>
+      {/* )} */}
     </Routes>
-  )
+  );
 }

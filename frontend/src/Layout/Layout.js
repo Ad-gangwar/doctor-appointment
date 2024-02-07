@@ -5,9 +5,9 @@ import Router from '../components/Routes/Routers';
 
 const Layout = () => {
   return (
-    <div className='d-flex flex-column min-vh-100'>
+    <div>
       <Header />
-      <main className='flex-grow-1'>
+      <main>
         <Router />
       </main>
       <Footer />

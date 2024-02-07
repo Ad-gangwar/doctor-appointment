@@ -1,87 +1,90 @@
-import React, { useEffect, useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import React, { useEffect, useState, useRef, useContext } from 'react'
+import { Link, useNavigate, NavLink } from 'react-router-dom'
+import { BiMenu } from 'react-icons/bi';
+import { useCookies } from "react-cookie";
+import logo from '../assets/images/logo.png';
+import { AuthContext } from './context/AuthContext';
 
 export default function Header() {
   const navigate = useNavigate();
+  const { user} = useContext(AuthContext);
+  const [cookies] = useCookies(["token"]);
+  const token=cookies.token;
+  // let id = localStorage.getItem("userId");
 
-  let id = localStorage.getItem("userId");
-  
-  const [name, setName] = useState("");
+  const menuRef = useRef(null);
 
-  function handleLogout() {
-    localStorage.removeItem("authToken");
-    navigate("/login");
-  }
-
-
-  useEffect(() => {
-    if (id) {
-      async function fetchUserName() {
-        try {
-          const response1 = await fetch("http://localhost:5000/user/"+id);
-          const response2 = await fetch("http://localhost:5000/doctor/"+id);
-          const data1 = await response1.json();
-          const data2 = await response2.json();
-          if (data1.success) {
-            setName(data1.data.name);
-          }
-          else if(data2.success){
-            setName(data2.data.name)
-          } 
-          else {
-            console.error("Failed to fetch user data");
-          }
-        } catch (error) {
-          console.error("Error fetching user data", error);
-        }
-      }
-      fetchUserName();
+  const navLinks = [
+    {
+      path: 'home',
+      display: 'Home'
+    },
+    {
+      path: '/doctors',
+      display: 'Find a Doctor'
+    },
+    {
+      path: '/services',
+      display: 'Services'
+    },
+    {
+      path: '/contact',
+      display: 'Contact'
     }
-  }, [id]);
-  // console.log(name);
+  ]
 
-  function abbreviateName(name) {
-    const words = name.split(' ');
-    const initials = words.map(word => word.charAt(0).toUpperCase());
-    const abbreviatedName = initials.join('');
-    return abbreviatedName;
- }
+  const toggleMenu = () => menuRef.current.classList.toggle('show_menu');
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light d-flex flex-row sticky-top">
-      <div className="container-fluid">
-        <Link className="navbar-brand fst-italic fw-bold mx-3" to="/">Appoint-Well</Link>
-        <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-          <span className="navbar-toggler-icon"></span>
-        </button>
-        <div className="collapse navbar-collapse" id="navbarNavDropdown">
-          <ul className="navbar-nav col-12 col-md-auto mb-2 justify-content-center mb-md-0">
-            <li className='nav-item'><Link to="/" className="nav-link px-2 link-secondary">Home</Link></li>
-            <li className='nav-item'><Link to="/doctors" className="nav-link px-2 link-dark">Find a Doctor</Link></li>
-            <li className='nav-item'><Link to="/services" className="nav-link px-2 link-dark">Services</Link></li>
-            <li className='nav-item'><Link to="/contact" className="nav-link px-2 link-dark">Contact</Link></li>
-            <li className='nav-item'><Link to="/about" className="nav-link px-2 link-dark">About</Link></li>
-          </ul>
+    <header className='header flex items-center sticky_header'>
+      <div className='container'>
+        <div className='flex items-center justify-between'>
+          {/* name of the website */}
+          <div>
+            <img src={logo} alt=''></img>
+          </div>
 
+          {/* menu */}
+          <div className='navigation' ref={menuRef} onClick={toggleMenu}>
+            <ul className='menu flex items-center gap-[2.7rem]'>
+              {
+                navLinks.map((link, index) => {
+                  return <li key={index}>
+                    <NavLink to={link.path}
+                      className={navClass =>
+                        navClass.isActive ?
+                          'text-primaryColor text-[16px] leading-7 font-[600]'
+                          : 'text-textColor text-[16px] leading-7 font-[500] hover:text-primaryColor'}>
+                      {link.display}
+                    </NavLink>
+                  </li>
+                })
+              }
+            </ul>
+          </div>
+
+          {/* ----------------nav right--------- */}
+          <div className='flex items-center gap-4'>
+            {token && user ? (
+              <div>
+                <Link to={`${user.role==='doctor' ? '/doctors/profile/me' : '/users/profile/me'}`}>
+                  <figure className='w-[35px] h-[35px] rounded-full cursor-pointer'>
+                    <img src={user?.photo} className='w-full rounded-full' alt=''></img>
+                  </figure>
+                </Link>
+              </div>
+            ) : (
+              <Link to='/login'>
+                <button className='bg-primaryColor py-2 px-6 text-white font-[600] h-[44px] flex items-center justify-center rounded-[50px]'>Login</button>
+              </Link>
+            )}
+
+            <span className='md:hidden' onClick={toggleMenu}>
+              <BiMenu className='w-6 h-6 cursor-pointer' />
+            </span>
+          </div>
         </div>
       </div>
-      {!localStorage.getItem("authToken") ?
-        <div className="col-md-3 mx-3 text-end">
-          <button type="button" className="btn btn-outline-primary mx-2" onClick={() => {
-            navigate("/login")
-          }}>Login</button>
-          <button type="button" className="btn btn-primary mx-2" onClick={() => {
-            navigate("/register")
-          }}>Sign-up</button>
-        </div> :
-        <div className="col-md-3 mx-3 text-end">
-          <button type="button" className="btn btn-outline-primary mx-2 rounded-circle" onClick={()=>{
-            navigate("/profile")
-          }}>{abbreviateName(name)}</button>
-          <button type="button" className="btn btn-primary mx-2" onClick={handleLogout}>Log Out</button>
-        </div>
-      }
-
-    </nav>
+    </header>
   )
 }

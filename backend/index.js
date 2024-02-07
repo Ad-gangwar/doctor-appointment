@@ -2,30 +2,29 @@
 const express = require('express');
 const mongoose = require('mongoose');
 require('dotenv').config();
-const cors=require('cors');
+const passport = require('passport');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
+const cors = require('cors');
 // Getting the secret key from environment variables
-const URL=process.env.URL;
-const userRoutes=require('./Routes/user');
+const SECRET = process.env.SECRET;
+const URL = process.env.URL;
+// Importing the User model and authentication routes
+const User = require('./models/UserSchema');
+const Doctor = require('./models/DoctorSchema');
 const authRoutes = require('./Routes/auth');
+const userRoutes = require('./Routes/user');
 const doctorRoutes = require('./Routes/doctor');
-
+const reviewRoutes = require('./Routes/review');
+// Creating an Express application
 const app = express();
 
 // Setting up the port for the server
-const PORT = 8000 || process.env.PORT;
+const PORT = 5000 || process.env.PORT;
 
 app.use(cors());
 // Middleware to parse incoming JSON data
 app.use(express.json());
-
-app.use((req, res, next)=>{
-    res.setHeader("Access-Control-Allow-Origin", "*");
-    res.header(
-        "Access-Control-Allow-Headers",
-        "Origin, X-Requested-With, Content-Type, Accept"
-    );
-    next();
-})
 
 // Simple route to test if the server is running
 app.get("/", (req, res) => {
@@ -36,19 +35,49 @@ app.get("/", (req, res) => {
 app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/doctor', doctorRoutes);
+app.use('/review', reviewRoutes);
 
-console.log(URL);
 // Connecting to the MongoDB database
 mongoose.connect(URL).then((x) => {
     console.log('Connected to the database');
 }).catch((err) => {
+    console.log(err);
     console.log('Error connecting to the database');
+    process.exit(1);
 });
 
+// Setting up Passport middleware for JWT authentication
+// This code checks the user against the authToken
+//The name of this strategy is by default jwt
+let opts = {};
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = SECRET;
 
+passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
+    // console.log('JWT Payload:', jwt_payload);
 
-// Middleware to parse JSON requests
-app.use(express.json());
+    try {
+        let user;
+        if (jwt_payload.role === 'patient') {
+            // console.log(jwt_payload.identifier)
+            user = await User.findById(jwt_payload.identifier);
+        } else if (jwt_payload.role === 'doctor') {
+            user = await Doctor.findById(jwt_payload.identifier);
+        }
+
+        if (user) {
+            // console.log('User found:', user);
+            return done(null, user);
+        } else {
+            // console.log('User not found');
+            return done(null, false);
+        }
+    } catch (err) {
+        console.error('Error during authentication:', err);
+        return done(err, false);
+    }
+}));
+
 
 // Starting the Express server
 app.listen(PORT, () => {

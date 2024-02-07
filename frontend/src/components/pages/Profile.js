@@ -67,8 +67,8 @@ const Profile = () => {
         if (id) {
             async function fetchUserName() {
                 try {
-                    const response1 = await fetch("http://localhost:5000/user/" + id);
-                    const response2 = await fetch("http://localhost:5000/doctor/" + id);
+                    const response1 = await fetch("https://doctor-appointment-qjwj.onrender.com/user/" + id);
+                    const response2 = await fetch("https://doctor-appointment-qjwj.onrender.com/doctor/" + id);
                     const data1 = await response1.json();
                     const data2 = await response2.json();
                     if (data1.success) {

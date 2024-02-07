@@ -2,20 +2,51 @@ import React from 'react'
 
 export default function Contact() {
   return (
-    <div className='d-flex justify-content-center align-items-center flex-column'>
-      <form className='w-50'>
-        <div className="form-group my-3">
-          <label for="exampleFormControlTextarea1" className='my-2'>Subject</label>
-          <textarea className="form-control" id="exampleFormControlTextarea1" rows="1" placeholder='Let us know how we can help you.'></textarea>
-        </div>
-        <div className="form-group my-3">
-          <label for="exampleFormControlTextarea1" className='my-2'>Your Message</label>
-          <textarea className="form-control" id="exampleFormControlTextarea1" rows="10" placeholder='Leave a comment'></textarea>
-        </div>
-      </form>
-      <div>
-        <button type='submit' className='btn btn-primary rounded-pill my-2'>Submit</button>
-      </div>
-    </div>
+    <section>
+      <div className="px-4 mx-auto max-w-screen-md">
+        <h2 className="heading text-center">Contact Us</h2>
+        <p className="mb-8 lg:mb-16 font-light text-center text_para">
+          Got an issue? Want to send feedback about a beta feature? Let
+          us know.
+        </p>
+        <form action="#" className="space-y-8">
+          <div>
+            <label htmlFor="email" className="form-label">
+              Your Email
+            </label>
+            <input
+              type="email"
+              id="email"
+              placeholder="example@gmail.com"
+              className="form-input mt-1 rounded-md"
+            />
+          </div>
+          <div>
+            <label htmlFor="subject" className="form-label">
+              Subject
+            </label>
+            <input
+              type="text"
+              id="subject"
+              placeholder="Let us know, how we can help you?"
+              className="form-input mt-1 rounded-md"
+            />
+          </div>
+
+          <div className='sm:col-span-2'>
+            <label htmlFor='message' className='form-label'>
+              Your message
+            </label>
+            <textarea
+              rows='6'
+              type='text'
+              placeholder='Leave a comment....'
+              className='form-input mt-1 rounded-md'
+            />
+          </div>
+          <button type='submit' className='btn rounded sm:w-fit'>Submit</button>
+        </form>
+      </div> I
+    </section>
   )
 }

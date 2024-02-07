@@ -1,31 +1,31 @@
 import React from 'react';
+import aboutImg from '../../assets/images/about.png';
+import aboutCardImg from '../../assets/images/about-card.png';
+import { Link } from 'react-router-dom';
 
-const AboutPage = () => {
+const About = () => {
   return (
-    <div className="container mt-5">
-      <div className="card p-4 shadow-lg">
-        <h1 className="mb-4 text-center text-primary fw-bold">About Us</h1>
-        <p className="lead">
-          Welcome to our Doctor Appointment System! We are committed to providing you with a seamless and user-friendly experience for managing your healthcare appointments.
-        </p>
-        <p>
-          Our platform offers a range of features to make your experience efficient and enjoyable:
-        </p>
-        <ul className="list-group list-group-flush">
-          <li className="list-group-item"><strong>Schedule Appointments:</strong> Easily book appointments with your preferred doctors.</li>
-          <li className="list-group-item"><strong>View Availability:</strong> Explore available time slots for each doctor at your convenience.</li>
-          <li className="list-group-item"><strong>Receive Reminders:</strong> Get timely reminders for upcoming appointments to stay organized.</li>
-          <li className="list-group-item"><strong>Provide Feedback:</strong> Share your valuable feedback and reviews after each appointment.</li>
-        </ul>
-        <p className="mt-4">
-          Our dedicated team is focused on enhancing the healthcare experience for both patients and doctors. If you have any questions or suggestions, feel free to reach out to us.
-        </p>
-        <p>
-          Thank you for choosing our Doctor Appointment System!
-        </p>
+    <div className="container">
+      <div className='flex justify-between gap-[50px] lg:gap-[130px] xl:gap-0 flex-col lg:flex-row container'>
+        {/* about images */}
+        <div className='relative w-3/4 lg:w-1/2 xl:w-[770px] z-10 order-2 lg:order-1'>
+          <img src={aboutImg} alt=''></img>
+          <div className='absolute z-20 bottom-4 w-[200px] md:w-[300px] right-[-30%] md:right-[-7%] lg:right-[22%]'>
+            <img src={aboutCardImg} alt=''></img>
+          </div>
+        </div>
+
+        {/* about content */}
+        <div className='w-full lg:w-1/2 xl:w-[670px] order-1 lg:order-2'>
+          <h2 className='heading'>Proud to be one of the nations best</h2>
+          <p className='text_para'>For 30 yeasrs in a row, U.S. News and World Report has recognized us as one of the best public hfhf hhffhfh rhjy dgdi sjjd etdig.</p>
+          <p className='text_para mt-[30px]'>For 30 yeasrs in a row, U.S. News and World Report has recognized us as one of the best public hfhf hhffhfh rhjy dgdi sjjd etdig rgdg gdgd dgd.</p>
+
+          <Link to='/'><button className='btn'>Learn More</button></Link>
+        </div>
       </div>
     </div>
   );
 };
 
-export default AboutPage;
+export default About;
