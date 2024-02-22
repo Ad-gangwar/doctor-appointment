@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
 import userImg from '../../assets/images/doctor-img02.png';
 import { AuthContext } from '../../components/context/AuthContext';
-import { useCookies } from "react-cookie";
 import MyBookings from './MyBookings';
 import Profile from './Profile';
 import userGetProfile from '../../hooks/userFetchData';
@@ -10,16 +9,16 @@ import Error from '../../components/Error/Error';
 
 export default function MyAccount() {
     const { dispatch } = useContext(AuthContext);
-    const [cookies, setCookie, removeCookie] = useCookies(["token"]);
     const [tab, setTab] = useState('bookings')
     const { data: userData, loading, error } = userGetProfile("/user/profile/me");
 
     // console.log(userData);
 
     const handleLogout = () => {
-        removeCookie("token");
+        localStorage.removeItem("docToken");
         dispatch({ type: "LOGOUT" });
     }
+    
     return (
         <section>
             <div className='max-w-[1170px] px-5 mx-auto'>

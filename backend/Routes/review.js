@@ -17,7 +17,7 @@ const getAllReviews=async(req, res)=>{
 }
 
 const createReview = async (req, res) => {
-    console.log(req.user);
+    // console.log(req.user);
     if (!req.body.doctor) req.body.doctor = req.params.doctorId;
     if (!req.body.user) req.body.user = req.user._id;
 

@@ -7,48 +7,20 @@ import starIcon from '../../../assets/images/Star.png';
 import AboutDoctor from './AboutDoctor';
 import Feedback from './Feedback';
 import SidePanel from './SidePanel';
+import userFetchData from '../../../hooks/userFetchData'
+import Loader from '../../Loader/Loading'
+import Error from '../../Error/Error'
 
 export default function DoctorDetails() {
-  const { id } = useParams();
-  const [doctor, setData] = useState({});
-  const [selectedSlot, setSelectedSlot] = useState(null);
-  const [tab, setTab] = useState('about');
+  const [tab, setTab] = useState("about");
 
-  useEffect(() => {
-    function fetchData() {
-      const selectedDoctor = doctors.find(doctor => doctor.id === id);
-      if (selectedDoctor) {
-        setData(selectedDoctor);
-      }
-    }
-
-    fetchData();
-  }, [id]);
-
-  const availableSlots = [
-    { time: '9:00 AM - 10:00 AM', isAvailable: true },
-    { time: '10:30 AM - 11:30 AM', isAvailable: false },
-    { time: '12:00 PM - 1:00 PM', isAvailable: true },
-    { time: '2:00 PM - 3:00 PM', isAvailable: true },
-    { time: '3:30 PM - 4:30 PM', isAvailable: false },
-  ];
-  const [selectedQuestion, setSelectedQuestion] = useState(null);
-
-  const handleQuestionClick = (index) => {
-    setSelectedQuestion(selectedQuestion === index ? null : index);
-  };
-
-  const handleSlotClick = (slot) => {
-    if (slot.isAvailable) {
-      setSelectedSlot(slot);
-    } else {
-      alert('Slot already booked!');
-    }
-  };
-
+const {data: doctor, loading, error} = userFetchData("/doctor/profile/me");
   return <section>
     <div className='max-w-[1170px] px-5 mx-auto'>
-      <div className='grid md:grid-cols-3 gap-[50px]'>
+    {loading && <Loader />}
+      {error && <Error />}
+
+      {!loading && !error && <div className='grid md:grid-cols-3 gap-[50px]'>
         <div className='md:col-span-2'>
           <div className='flex items-center gap-5'>
             <figure className='max-w-[200px] max-h-[200px]'>
@@ -72,7 +44,7 @@ export default function DoctorDetails() {
               </div>
 
               <p className='text_para text-[14px] leading-6 md:text-[15px] lg:max-w-[390px]'>
-              dgndgn digdign digdij aoslsokffsj o dnjd ddjnj
+                {doctor.bio}
               </p>
             </div>
           </div>
@@ -87,14 +59,14 @@ export default function DoctorDetails() {
           </div>
          <div className='mt-[50px]'>
           {tab==='about' && <AboutDoctor doctor={doctor}/>}
-          {tab==='feedback' && <Feedback/>}
+          {tab==='feedback' && <Feedback reviews = {doctor.reviews} totalRating = {doctor.totalRating}/>}
          </div>
         </div>
 
         <div>
-          <SidePanel/>
+          <SidePanel doctorId={doctor._id} ticketPrice={doctor.ticketPrice} timeSlots= {doctor.timeSlots}/>
         </div>
-      </div>
+      </div>}
     </div>
   </section>
 }

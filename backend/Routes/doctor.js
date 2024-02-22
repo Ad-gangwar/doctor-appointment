@@ -7,6 +7,7 @@ const passport = require('passport');
 
 const updateDoctor = async (req, res) => {
     const id = req.params.id;
+    // console.log(req.body)
     try {
         const updatedDoctor = await Doctor.findByIdAndUpdate(id, { $set: req.body }, { new: true });
         res.status(200).json({ success: true, message: 'Successfully updated', data: updatedDoctor });
@@ -59,7 +60,8 @@ const getAllDoctor = async (req, res) => {
 };
 
 const getDoctorProfile = async(req, res)=>{
-    const doctorId=req.userId;
+    // console.log(req.user);
+    const doctorId=req.user._id;
 
     try{
         const doctor=await Doctor.findById(doctorId);

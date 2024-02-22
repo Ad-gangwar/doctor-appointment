@@ -81,3 +81,11 @@ body{
         display: block;
     }
 }
+
+@media only screen and (max-width: 1024px){
+    .show_tab{
+        display: block;
+        max-width: 450px;
+        position: absolute;
+    }
+}

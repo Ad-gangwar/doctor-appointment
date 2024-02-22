@@ -10,6 +10,7 @@ const app = express();
 router.post('/register', async (req, res) => {
     // Extracting user details from the request body
     const { email, password, name, role, photo, gender } = req.body;
+    // console.log(photo);
 
     try {
         // Check if user with the same email already exists
@@ -98,4 +99,6 @@ router.post('/login', [
         res.status(500).json({ err: 'Internal server error' });
     }
 });
+
+module.exports=router;
 

@@ -14,10 +14,8 @@ import ProtectedRoutes from './ProtectedRoutes';
 
 
 export default function routers() {
-  let token=localStorage.getItem('authToken');
   return (
     <Routes>
-      {/* {token ? ( */}
         <>
           <Route path='/' element={<Home />} />
           <Route path='/home' element={<Home />} />
@@ -29,14 +27,10 @@ export default function routers() {
           <Route path='/doctors/profile/me' element={<ProtectedRoutes allowedRoles={['doctor']}><Dashboard/></ProtectedRoutes>} />
           <Route path='/about' element={<About />} />
           <Route path='*' element={<Home />} />
-        </>
-      {/* ) : ( */}
-        <>
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
           <Route path='*' element={<Login />} />
         </>
-      {/* )} */}
     </Routes>
   );
 }

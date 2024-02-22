@@ -2,7 +2,6 @@ import React, { useState, useContext } from 'react';
 import Input from '../shared/Input';
 import { useNavigate, Link } from 'react-router-dom';
 import { makeUnauthPostReq } from '../../utils/serverHelper';
-import { useCookies } from 'react-cookie';
 import toast from 'react-hot-toast';
 import { AuthContext } from '../context/AuthContext';
 import HashLoader from 'react-spinners/HashLoader';
@@ -12,7 +11,6 @@ export default function Login() {
     const [loading, setLoading] = useState(false);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [cookie, setCookie] = useCookies(["token"]);
     const { dispatch } = useContext(AuthContext);
 
     const handleSubmit = async (e) => {
@@ -24,11 +22,7 @@ export default function Login() {
 
             if (response && !response.err) {
                 const token = response.token;
-                const date = new Date();
-                date.setDate(date.getDate() + 30);
-                setCookie("token", token, { path: "/", expires: date });
-                // setCookie("userEmail", email, { path: "/" });
-                // console.log(response);
+                localStorage.setItem("docToken", token);
                 dispatch({
                     type: "LOGIN_SUCCESS",
                     payload: {

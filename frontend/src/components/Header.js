@@ -1,15 +1,13 @@
 import React, { useEffect, useState, useRef, useContext } from 'react'
 import { Link, useNavigate, NavLink } from 'react-router-dom'
 import { BiMenu } from 'react-icons/bi';
-import { useCookies } from "react-cookie";
 import logo from '../assets/images/logo.png';
 import { AuthContext } from './context/AuthContext';
 
 export default function Header() {
   const navigate = useNavigate();
   const { user} = useContext(AuthContext);
-  const [cookies] = useCookies(["token"]);
-  const token=cookies.token;
+  const token=localStorage.getItem("docToken");
   // let id = localStorage.getItem("userId");
 
   const menuRef = useRef(null);
@@ -32,6 +30,8 @@ export default function Header() {
       display: 'Contact'
     }
   ]
+
+  // console.log(user);
 
   const toggleMenu = () => menuRef.current.classList.toggle('show_menu');
 
@@ -69,7 +69,7 @@ export default function Header() {
               <div>
                 <Link to={`${user.role==='doctor' ? '/doctors/profile/me' : '/users/profile/me'}`}>
                   <figure className='w-[35px] h-[35px] rounded-full cursor-pointer'>
-                    <img src={user?.photo} className='w-full rounded-full' alt=''></img>
+                    <img src={user.photo} className='w-full rounded-full' alt=''></img>
                   </figure>
                 </Link>
               </div>

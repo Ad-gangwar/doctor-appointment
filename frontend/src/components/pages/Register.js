@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Input from '../shared/Input';
 import { Link, useNavigate } from 'react-router-dom';
 import signupImg from '../../assets/images/signup.gif';
-import avatar from '../../assets/images/doctor-img01.png';
+// import avatar from '../../assets/images/doctor-img01.png';
 import { makeUnauthPostReq } from '../../utils/serverHelper';
 import uploadImgToCloudinary from '../../utils/Cloudinary_Upload';
 import HashLoader from 'react-spinners/HashLoader'
@@ -10,7 +10,6 @@ import toast from 'react-hot-toast';
 
 
 export default function Register() {
-    // const [cookie, setCookie] = useCookies(["token", "userEmail"]);
     const navigate = useNavigate();
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewURL, setPreviewURL] = useState("");
@@ -20,7 +19,7 @@ export default function Register() {
     const [role, setRole] = useState("patient");
     const [gender, setGender] = useState("");
     const [loading, setLoading] = useState(false);
-
+    
     const handleFileInputChange = async (e) => {
         const file = e.target.files[0];
         const data = await uploadImgToCloudinary(file);
@@ -32,6 +31,7 @@ export default function Register() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoading(true);
+        console.log(selectedFile);
         const data = { email, name, password, role, gender, photo: selectedFile };
 
         try {

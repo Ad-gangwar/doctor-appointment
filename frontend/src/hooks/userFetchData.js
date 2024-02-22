@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from 'react'
-import { useCookies } from 'react-cookie'
 import {makeAuthGetReq} from '../utils/serverHelper';
 
 const UserFetchData=(url)=> {
+    // console.log(url)
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
-    const [cookies] = useCookies(["token"]);
 
     useEffect(()=>{
         const fetchData= async()=>{
@@ -17,6 +16,7 @@ const UserFetchData=(url)=> {
                 if(!response.success){
                     throw new Error(response.message + "😒");
                 }
+                // console.log(response)
                 setData(response.data);
                 setLoading(false);
             }
