@@ -30,10 +30,7 @@ const DoctorCard = ({ doctor }) => {
 
       <div className='mt-[18px] lg:mt-5 flex items-center justify-between'>
         <div>
-          {/* <h3 className='text-[16px] leading-7 lg:text-[18px] lg:leading-[30px] font-semibold text-headingColor'>
-            +{doctor.totalPatients} patients
-          </h3> */}
-          <p className='text-[14px] leading-6 font-[400] text-textColor'>
+          <p className='text-[18px] leading-6 font-[400] text-textColor'>
             At {doctor.experiences && doctor.experiences[0]?.hospital}
           </p>
         </div>

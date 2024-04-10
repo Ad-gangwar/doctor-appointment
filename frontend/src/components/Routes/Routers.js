@@ -11,7 +11,7 @@ import About from '../pages/About';
 import MyAccount from '../../Dashboard/user-account/MyAccount';
 import Dashboard from '../../Dashboard/doctor-account/Dashboard';
 import ProtectedRoutes from './ProtectedRoutes';
-
+import CheckoutSuccess from '../pages/CheckoutSuccess';
 
 export default function routers() {
   return (
@@ -29,6 +29,7 @@ export default function routers() {
           <Route path='*' element={<Home />} />
           <Route path='/register' element={<Register />} />
           <Route path='/login' element={<Login />} />
+          <Route path='/checkout-success' element={<CheckoutSuccess />} />
           <Route path='*' element={<Login />} />
         </>
     </Routes>

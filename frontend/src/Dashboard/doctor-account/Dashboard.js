@@ -45,17 +45,17 @@ export default function Dashboard() {
                   {tab === 'overview' && (
                     <div>
                       <div className=' grid sm:grid-cols-3 mb-10'>
-                        <div className='flex justify-center'>
+                        <div className='flex justify-center mb-4'>
                           <figure className='max-w-[200px] max-h-[200px]'>
                             <img src={data?.photo} alt='' className='w-full'></img>
                           </figure>
                         </div>
 
-                        <div>
+                        <div className=' col-span-2'>
                           <div>
-                            <span className='bg-[#CCF0F3] text-irisBlueColor py-1 px-4 lg:py-2 lg:px-6 rounded text-[12px] leading-4 lg:text-[16px] lg:leading-6 font-semibold'>
+                            <div className='bg-[#CCF0F3] text-irisBlueColor py-1 px-4 lg:py-2 lg:px-6 rounded text-[12px] leading-4 lg:text-[16px] lg:leading-6 font-semibold max-w-[150px]'>
                               {data.specialization}
-                            </span>
+                            </div>
 
                             <h3 className='text-[22px] leading-9 font-bold text-headingColor mt-3'>
                               {data.name}
@@ -71,7 +71,7 @@ export default function Dashboard() {
                             </div>
 
                             <p className='text-para font-semibold mt-4'>Contact No. <span className=' text-green-600 font-bold'>{data?.phone}</span></p>
-                            <p className='text_para font-[15px] lg:max-w-[390px] leading-6'>
+                            <p className='mt-4 font-[14px] leading-6'>
                               {data?.bio}
                             </p>
                           </div>

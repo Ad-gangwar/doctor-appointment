@@ -1,14 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Input from '../../components/shared/Input';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import uploadImgToCloudinary from '../../utils/Cloudinary_Upload';
 import HashLoader from 'react-spinners/HashLoader'
 import toast from 'react-hot-toast';
-import { useCookies } from 'react-cookie';
 import { URL } from '../../utils/config';
 
 export default function Profile({ user }) {
-  // const [cookie, setCookie] = useCookies(["token", "userEmail"]);
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
@@ -16,8 +14,7 @@ export default function Profile({ user }) {
   const [bloodType, setBloodType] = useState("");
   const [loading, setLoading] = useState(false);
   const [photo, setPhoto] = useState(null);
-  const [cookies] = useCookies(["token"]);
-  const token = cookies.token;
+  const token = localStorage.getItem("docToken");
 
   const handleFileInputChange = async (e) => {
     const file = e.target.files[0];
@@ -37,7 +34,7 @@ export default function Profile({ user }) {
     e.preventDefault();
     setLoading(true);
     const data = { email, name, gender, photo, bloodType };
-
+//  console.log(data);
     try {
       const response = await fetch(URL + "/user/" + user._id, {
         method: "PUT",
@@ -47,13 +44,14 @@ export default function Profile({ user }) {
         },
         body: JSON.stringify(data),
       });
-      console.log(data);
-      console.log(response.data);
+     
+      // console.log(response);
       if (response && !response.err) {
         // Registration successful
         toast.success("Updated Successfully!");
         setLoading(false);
         navigate("/users/profile/me");
+        window.location.reload();
       }
     } catch (error) {
       // Handle unexpected errors

@@ -19,7 +19,7 @@ export default function AboutDoctor({ doctor }) {
                     and is dedicated to delivering the highest standard of care to the community.`}
                 </p>
             </div>
-            <div className='mt-12'>
+            <div className=' mt-10'>
                 <h3 className='text-[20px] leading-[30px] text-headingColor font-semibold'>
                     Education
                 </h3>
@@ -41,7 +41,7 @@ export default function AboutDoctor({ doctor }) {
                 </ul>
             </div>
 
-            <div className='mt-12'>
+            <div className='mt-0'>
                 <h3 className='text-[20px] leading-[30px] text-headingColor font-semibold'>
                     Experience
                 </h3>
@@ -51,10 +51,10 @@ export default function AboutDoctor({ doctor }) {
                             <span className=' text-yellowColor text-[15px] leading-6 font-semibold'>
                                 {formatDate(item.startingDate)} -   {formatDate(item.endingDate)}
                             </span>
-                            <p className='text-[16px] leading-5 font-medium text-textColor'>
+                            <p className='text-[16px] leading-5 font-medium text-textColor mt-3'>
                                 {item.position}
                             </p>
-                            <p className='text-[15px] leading-5 font-medium text-textColor'>
+                            <p className='text-[15px] leading-5 font-medium text-textColor mt-3'>
                                 {item.hospital}
                             </p>
                         </li>

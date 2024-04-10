@@ -70,7 +70,7 @@ const getDoctorProfile = async(req, res)=>{
             return res.status(404).json({success: false, message: "Doctor not found"});
         }
 
-        const appointments=await Booking.find({doctor: doctorId});
+        const appointments=await Booking.find({doctor: doctorId}).populate('user');
 
         const {password, ...rest} = doctor._doc;
 

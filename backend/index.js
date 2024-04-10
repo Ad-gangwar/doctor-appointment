@@ -16,6 +16,7 @@ const authRoutes = require('./Routes/auth');
 const userRoutes = require('./Routes/user');
 const doctorRoutes = require('./Routes/doctor');
 const reviewRoutes = require('./Routes/review');
+const bookingRoutes = require('./Routes/booking');
 // Creating an Express application
 const app = express();
 
@@ -36,6 +37,7 @@ app.use('/auth', authRoutes);
 app.use('/user', userRoutes);
 app.use('/doctor', doctorRoutes);
 app.use('/review', reviewRoutes);
+app.use('/booking', bookingRoutes);
 
 // Connecting to the MongoDB database
 mongoose.connect(URL).then((x) => {

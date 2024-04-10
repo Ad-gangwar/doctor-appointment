@@ -18,10 +18,8 @@ const About = () => {
         {/* about content */}
         <div className='w-full lg:w-1/2 xl:w-[670px] order-1 lg:order-2'>
           <h2 className='heading'>Proud to be one of the nations best</h2>
-          <p className='text_para'>For 30 yeasrs in a row, U.S. News and World Report has recognized us as one of the best public hfhf hhffhfh rhjy dgdi sjjd etdig.</p>
-          <p className='text_para mt-[30px]'>For 30 yeasrs in a row, U.S. News and World Report has recognized us as one of the best public hfhf hhffhfh rhjy dgdi sjjd etdig rgdg gdgd dgd.</p>
-
-          <Link to='/'><button className='btn'>Learn More</button></Link>
+          <p className='text_para'>For 30 years consecutively, U.S. News and World Report has honored us as one of the leading public healthcare institutions. Our dedication to patient care and medical excellence drives us to deliver personalized and comprehensive services. From routine check-ups to complex treatments, our team of skilled physicians and support staff is committed to providing you with the best possible care.</p>
+          <Link to='/about'><button className='btn'>Learn More</button></Link>
         </div>
       </div>
     </div>

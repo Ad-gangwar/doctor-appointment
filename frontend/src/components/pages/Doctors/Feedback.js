@@ -5,6 +5,7 @@ import { AiFillStar } from 'react-icons/ai';
 import FeedbackForm from './FeedbackForm';
 
 export default function Feedback({ reviews, totalRating }) {
+    // console.log(reviews, totalRating);
     const [showFeedbackForm, setShowFeedbackForm] = useState(false);
     return (
         <div>
@@ -13,7 +14,7 @@ export default function Feedback({ reviews, totalRating }) {
                     All Reviews ({totalRating})
                 </h4>
 
-                {reviews?.map((review, index) => {
+                {reviews?.map((review, index) => (
                     <div className='flex justify-between gap-10 mb-[30px]'>
                         <div className='flex gap-3'>
                             <figure className='w-10 h-10 rounded-full'>
@@ -37,7 +38,7 @@ export default function Feedback({ reviews, totalRating }) {
                             {[...Array(review?.rating).keys()].map((_, index) => <AiFillStar key={index} color='#0067FF' />)}
                         </div>
                     </div>
-                })}
+                ))}
 
             </div>
             {!showFeedbackForm && <div className='text-center'>

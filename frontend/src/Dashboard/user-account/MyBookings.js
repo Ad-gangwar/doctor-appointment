@@ -1,5 +1,4 @@
 import React from 'react'
-import { URL } from '../../utils/config';
 import UserFetchData from '../../hooks/userFetchData';
 import DoctorCard from '../../components/shared/DoctorCard';
 import Loading from '../../components/Loader/Loading';
@@ -7,7 +6,7 @@ import Error from '../../components/Error/Error';
 
 export default function MyBookings() {
   const { data: appointments, loading, error } = UserFetchData('/user/appointments/my-appointments');
-
+ console.log(appointments);
   return (
     <div>
       {loading && !error && <Loading />}
@@ -15,7 +14,7 @@ export default function MyBookings() {
       {error && !loading && <Error errMessage={error} />}
 
       {!loading && !error && (
-        <div className='grid grid-cols-1 lg:grid-cols-2 gap-5'>
+        <div className='grid grid-cols-1 sm:grid-cols-2 gap-5 my-3'>
           {appointments.map((doctor, index) => (
             <DoctorCard doctor={doctor} key={index} />
           ))}

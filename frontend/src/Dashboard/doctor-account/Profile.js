@@ -228,6 +228,9 @@ export default function Profile({doctorData}) {
                                 <option value='surgeon'>Surgeon</option>
                                 <option value='neurologist'>Neurologist</option>
                                 <option value='dermatologist'>Dermatologist</option>
+                                <option value='Gynecology'>Gynecology</option>
+                                <option value='Orthopedics'>Orthopedics</option>
+                                <option value='Psychiatry'>Psychiatry</option>
                             </select>
                         </div>
                         <div>

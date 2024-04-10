@@ -23,7 +23,7 @@ export default function FeedbackForm() {
             }
 
             const res = await makeAuthPostReq(`/doctor/${id}/review/`, { rating, reviewText });
-
+            console.log(res);
             if (!res.ok) {
                 throw new Error(res.message);
             }

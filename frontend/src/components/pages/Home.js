@@ -31,7 +31,7 @@ export default function Home() {
                 Welcome to our state-of-the-art Doctor Appointment System, where your health is our top priority. Our user-friendly platform is designed to seamlessly connect patients with their preferred healthcare providers, offering a convenient and efficient way to schedule appointments. Experience the ease of exploring doctor availability, receiving timely reminders, and providing valuable feedback after each visit. Join us in revolutionizing the way you manage your health, where comprehensive care meets modern convenience. Your well-being, our commitment.
               </p>
 
-              <button className='btn'>Request an Appointment</button>
+              <Link to="/doctors"><button className='btn'>Request an Appointment</button></Link>
             </div>
 
             <div className='mt-[30px] lg:mt-[70px] flex flex-col lg:flex-row lg:items-center gap-5 lg:gap-[30px]'>
@@ -160,7 +160,7 @@ export default function Home() {
                 3. View our physicians who are accepting new patients, use the online scheduling tool to select an appointment time.
               </li>
             </ul>
-            <Link to='/'><button className='btn'>Learn More</button></Link>
+            <Link to='/help'><button className='btn'>Learn More</button></Link>
           </div>
           {/* features images */}
           <div className='relative z-10 xl:w-[770px] flex justify-end mt-[50px] lg:mt-0'>

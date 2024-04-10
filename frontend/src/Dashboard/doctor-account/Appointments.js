@@ -2,6 +2,7 @@ import React from 'react'
 import {formatDate} from '../../utils/formatDate';
 
 export default function Appointments({ appointments }) {
+    
     return (
         <table className=' w-full text-left text-sm text-gray-500'>
             <thead className=' text-xs text-gray-700 uppercase bg-gray-50'>

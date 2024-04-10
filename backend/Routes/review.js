@@ -25,7 +25,7 @@ const createReview = async (req, res) => {
 
     try {
         const savedReview = await newReview.save(); // Use await here
-        console.log(savedReview); // Log savedReview._doc instead of savedReview
+        // console.log(savedReview); // Log savedReview._doc instead of savedReview
         await Doctor.findByIdAndUpdate(req.body.doctor, {
             $push: { reviews: savedReview._id }
         });
