@@ -1,11 +1,15 @@
 import React from 'react'
 import {Link} from 'react-router-dom';
+import successImg from '../../assets/images/success.gif';
 
 export default function CheckoutSuccess() {
   return (
     <div className='bg-gray-100 h-screen'>
         <div className=' bg-white p-6 md:m-auto'>
             {/* image */}
+            <figure>
+                <img src={successImg} alt='' className='mx-auto'></img>
+            </figure>
             <div className=' text-center'>
                 <h3 className=' md:text-2xl text-base text-gray-900 font-semibold text-center'>
                     Payment Done

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { useParams } from 'react-router-dom';
-import doctorImg from '../../../assets/images/doctor-img02.png';
 import starIcon from '../../../assets/images/Star.png';
 import AboutDoctor from './AboutDoctor';
 import Feedback from './Feedback';

@@ -1,13 +1,7 @@
-/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: ["./public/**/*.html", "./src/**/*.js"],
   theme: {
     extend: {
-      utilities: {
-        '.word-wrap': {
-          overflowWrap: 'break-word',
-        },
-      },
       colors: {
         primaryColor: "#0067FF",
         yellowColor: "#FEB60D",
@@ -17,11 +11,14 @@ module.exports = {
         textColor: "#4E545F"
       },
       boxShadow: {
-        panelShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px;",
+        panelShadow: "rgba(17, 12, 46, 0.15) 0px 48px 100px 0px"
+      },
+      utilities: {
+        '.word-wrap': {
+          overflowWrap: 'break-word',
+        }
       }
     },
   },
   plugins: [],
 }
-
-

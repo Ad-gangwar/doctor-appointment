@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useRef, useContext } from 'react'
-import { Link, useNavigate, NavLink } from 'react-router-dom'
+import React, { useRef, useContext } from 'react'
+import { Link,NavLink } from 'react-router-dom'
 import { BiMenu } from 'react-icons/bi';
 import logo from '../assets/images/logo.png';
 import { AuthContext } from './context/AuthContext';
 
 export default function Header() {
-  const navigate = useNavigate();
   const { user} = useContext(AuthContext);
   const token=localStorage.getItem("docToken");
   // let id = localStorage.getItem("userId");
@@ -14,7 +13,7 @@ export default function Header() {
 
   const navLinks = [
     {
-      path: 'home',
+      path: '/',
       display: 'Home'
     },
     {

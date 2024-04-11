@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from './Layout/Layout';
 import './App.css';
-import toast, { Toaster, ToastBar } from 'react-hot-toast';
+import { Toaster} from 'react-hot-toast';
 import { AuthContextProvider } from './components/context/AuthContext';
 
 export default function App() {
