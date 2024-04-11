@@ -1,4 +1,5 @@
 import React from 'react'
+import toast from 'react-hot-toast';
 
 export default function Contact() {
   return (
@@ -44,7 +45,10 @@ export default function Contact() {
               className='form-input mt-1 rounded-md'
             />
           </div>
-          <button type='submit' className='btn rounded sm:w-fit'>Submit</button>
+          <button type='submit' className='btn rounded sm:w-fit' onClick={() => {
+            toast.success("Email sent successfully!")
+            window.location.reload();
+          }}>Submit</button>
         </form>
       </div> I
     </section>

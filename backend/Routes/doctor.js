@@ -39,7 +39,9 @@ const getSingleDoctor = async (req, res) => {
 
 const getAllDoctor = async (req, res) => {
     try {
-        const {query}=req.query;
+        // console.log(req);
+        const query=req.query.search;
+        // console.log(query);
         let doctors;
         if(query){
             doctors=await Doctor.find({

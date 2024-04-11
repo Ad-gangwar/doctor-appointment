@@ -10,7 +10,8 @@ import featureImg from '../../assets/images/feature-img.png'
 import videoIcon from '../../assets/images/video-icon.png'
 import avatarIcon from '../../assets/images/avatar-icon.png'
 import { BsArrowRight } from 'react-icons/bs';
-import About from './About';
+import aboutImg from '../../assets/images/about.png';
+import aboutCardImg from '../../assets/images/about-card.png';
 import ServiceList from '../ServiceList';
 import Doctors from './Doctors/Doctors';
 import faqImg from '../../assets/images/faq-img.png';
@@ -126,7 +127,27 @@ export default function Home() {
       </div>
     </section>
 
-    <About />
+    {/* about section */}
+    <section>
+      <div className="container">
+        <div className='flex justify-between gap-[50px] lg:gap-[130px] xl:gap-0 flex-col lg:flex-row container'>
+          {/* about images */}
+          <div className='relative w-3/4 lg:w-1/2 xl:w-[770px] z-10 order-2 lg:order-1'>
+            <img src={aboutImg} alt=''></img>
+            <div className='absolute z-20 bottom-4 w-[200px] md:w-[300px] right-[-30%] md:right-[-7%] lg:right-[22%]'>
+              <img src={aboutCardImg} alt=''></img>
+            </div>
+          </div>
+
+          {/* about content */}
+          <div className='w-full lg:w-1/2 xl:w-[670px] order-1 lg:order-2'>
+            <h2 className='heading'>Proud to be one of the nations best</h2>
+            <p className='text_para'>For 30 years consecutively, U.S. News and World Report has honored us as one of the leading public healthcare institutions. Our dedication to patient care and medical excellence drives us to deliver personalized and comprehensive services. From routine check-ups to complex treatments, our team of skilled physicians and support staff is committed to providing you with the best possible care.</p>
+            <Link to='/about'><button className='btn'>Learn More</button></Link>
+          </div>
+        </div>
+      </div>
+    </section>
     {/* Services section */}
     <section>
       <div className='container'>
@@ -230,7 +251,7 @@ export default function Home() {
             World Class care for everyone. Our health system offers unmatched, expert health care.
           </p>
         </div>
-        <Reviews/>
+        <Reviews />
       </div>
     </section>
   </>

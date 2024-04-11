@@ -8,20 +8,20 @@ import Error from '../../Error/Error';
 export default function FindDoctor() {
     const [query, setQuery] = useState('');
     const [debounceQuery, setDebounceQuery] = useState('');
-
-    const { data: doctors, loading, error } = userFetchData(`/doctor/?search=${debounceQuery}`);
+    console.log(debounceQuery);
     
     useEffect(() => {
         const timeout = setTimeout(() => {
             setDebounceQuery(query.trim());
         }, 700);
-
+        
         return () => clearTimeout(timeout);
     }, [query]);
-
+    
     const handleSearch = () => {
         setQuery(query.trim());
     };
+    const { data: doctors, loading, error } = userFetchData(`/doctor/?search=${debounceQuery}`);
 
     return (
         <>

@@ -26,8 +26,16 @@ export default function Header() {
       display: 'Services'
     },
     {
+      path: '/about',
+      display: 'About'
+    },
+    {
       path: '/contact',
       display: 'Contact'
+    },
+    {
+      path: '/help',
+      display: 'Help'
     }
   ]
 
@@ -41,7 +49,7 @@ export default function Header() {
         <div className='flex items-center justify-between'>
           {/* name of the website */}
           <div>
-            <img src={logo} alt=''></img>
+            <Link to="/"><img src={logo} alt=''></img></Link>
           </div>
 
           {/* menu */}
